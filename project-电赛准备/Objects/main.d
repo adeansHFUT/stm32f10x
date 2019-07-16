@@ -31,3 +31,7 @@
 .\objects\main.o: .\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h
 .\objects\main.o: .\App\led\led.h
 .\objects\main.o: .\App\delay\delay.h
+.\objects\main.o: .\App\oled\oled.h
+.\objects\main.o: .\App\sys\sys.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: .\App\oled\bmp.h
