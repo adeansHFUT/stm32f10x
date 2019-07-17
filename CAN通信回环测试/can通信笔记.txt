@@ -1,0 +1,6 @@
+笔记一：HAL库中用的回调函数和标准库用的中断处理函数区别：
+回调函数是分层设计的结果，因为底层在中断时候只管调用一个函数指针而不需要管具体的处理。具体的处理是上层回调函数实现的。这样底层就可以基本固定。
+相当于用HAL_ppp_ActivateNotification()开启中断和用HAL_CAN_xxxCallback()实现功能
+
+笔记二：MX_PPP_Init()中调用HAL_PPP_Init()初始化high level的resource,HAL_PPP_Init()中
+调用HAL_PPP_MspInit()初始化low level的resource。
