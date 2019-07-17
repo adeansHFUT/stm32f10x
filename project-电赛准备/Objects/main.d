@@ -2,7 +2,7 @@
 .\objects\main.o: User\include.h
 .\objects\main.o: User\stm32f10x.h
 .\objects\main.o: .\Libraries\CMSIS\core_cm3.h
-.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\main.o: .\Libraries\CMSIS\system_stm32f10x.h
 .\objects\main.o: User\stm32f10x_conf.h
 .\objects\main.o: .\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_adc.h
@@ -33,5 +33,6 @@
 .\objects\main.o: .\App\delay\delay.h
 .\objects\main.o: .\App\oled\oled.h
 .\objects\main.o: .\App\sys\sys.h
-.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: .\App\oled\bmp.h
+.\objects\main.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\string.h

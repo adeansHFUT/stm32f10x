@@ -32,6 +32,7 @@
 #include "stdlib.h"
 #include "oledfont.h"  	 
 #include "delay.h"
+#include "string.h"
 //OLED的显存
 //存放格式如下.
 //[0]0 1 2 3 ... 127	
@@ -42,6 +43,7 @@
 //[5]0 1 2 3 ... 127	
 //[6]0 1 2 3 ... 127	
 //[7]0 1 2 3 ... 127 			   
+unsigned char OLED_SIZE = 16;            // 显示size 12/16
 
 #if OLED_MODE==1
 //向SSD1106写入一个字节。
@@ -121,16 +123,16 @@ void OLED_Clear(void)
 
 
 //在指定位置显示一个字符,包括部分字符
-//x:0~127
-//y:0~63
+//x:0~127(列)左上角开始
+//y:0~7(行)
 //mode:0,反白显示;1,正常显示				 
-//size:选择字体 16/12 
+//oled_size:选择字体 16--->8*16  12--->6*8 
 void OLED_ShowChar(u8 x,u8 y,u8 chr)
 {      	
 	unsigned char c=0,i=0;	
 		c=chr-' ';//得到偏移后的值			
 		if(x>Max_Column-1){x=0;y=y+2;}
-		if(SIZE ==16)
+		if(OLED_SIZE ==16)
 			{
 			OLED_Set_Pos(x,y);	
 			for(i=0;i<8;i++)
@@ -140,7 +142,7 @@ void OLED_ShowChar(u8 x,u8 y,u8 chr)
 			OLED_WR_Byte(F8X16[c*16+i+8],OLED_DATA);
 			}
 			else {	
-				OLED_Set_Pos(x,y+1);
+				OLED_Set_Pos(x,y);
 				for(i=0;i<6;i++)
 				OLED_WR_Byte(F6x8[c][i],OLED_DATA);
 				
@@ -155,8 +157,8 @@ u32 oled_pow(u8 m,u8 n)
 }				  
 //显示2个数字
 //x,y :起点坐标	 
-//len :数字的位数
-//size:字体大小
+//len :数字的位数(小数点开始从右往左显示len位) 15.6显示5位结果为_ _ _ 1 5
+//size:字体大小（16/12）
 //mode:模式	0,填充模式;1,叠加模式
 //num:数值(0~4294967295);	 		  
 void OLED_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size)
@@ -183,10 +185,15 @@ void OLED_ShowString(u8 x,u8 y,u8 *chr)
 {
 	unsigned char j=0;
 	while (chr[j]!='\0')
-	{		OLED_ShowChar(x,y,chr[j]);
+	{		
+		OLED_ShowChar(x,y,chr[j]);
+		if(OLED_SIZE == 16)
 			x+=8;
-		if(x>120){x=0;y+=2;}
-			j++;
+		else
+			x+=6;
+		if(x>120)
+			{x=0;y+=2;}
+		j++;
 	}
 }
 //显示汉字
@@ -281,7 +288,7 @@ void OLED_Init(void)
 	OLED_WR_Byte(0xA6,OLED_CMD);//--set normal display
 	OLED_WR_Byte(0xA8,OLED_CMD);//--set multiplex ratio(1 to 64)
 	OLED_WR_Byte(0x3f,OLED_CMD);//--1/64 duty
-		OLED_WR_Byte(0x81,OLED_CMD); //对比度设置
+	OLED_WR_Byte(0x81,OLED_CMD); //对比度设置
 	OLED_WR_Byte(0xfF,OLED_CMD); //1~255;默认0X7F (亮度设置,越大越亮)
 	OLED_WR_Byte(0xD3,OLED_CMD);//-set display offset	Shift Mapping RAM Counter (0x00~0x3F)
 	OLED_WR_Byte(0x00,OLED_CMD);//-not offset
@@ -305,8 +312,71 @@ void OLED_Init(void)
 	OLED_Clear();
 	OLED_Set_Pos(0,0); 	
 }  
-
-
+/*
+函数名：update_page
+函数作用：更新页面数组
+输入：  page(页面数组)，
+		index(节点号)
+		newstr(更新的字符串)
+		newnum(更新的数字)
+输出：1--->更新成功 0--->更新失败
+*/
+u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum)
+{
+	strcpy(page[index].srt, newstr);
+	page[index].num = newnum;
+	return 1;
+}
+/*
+函数名：showpage
+函数作用：在OLED 屏幕上显示一页内容
+输入：  page(页面数组)，
+		model(显示模式) 0--->1竖排显示 1--->2竖排显示,
+		show_size(显示字体:12/16) 12--->显示8行, 16--->可显示4行
+输出：无
+*/
+u8 showpage(show_node *page, unsigned char model, unsigned char show_size)
+{
+	unsigned char row_num = 0;  // 一行能放几个
+	if(show_size == 16)
+	{
+		OLED_SIZE = 16;
+		row_num = 4;
+	}		
+	else 
+	{
+		OLED_SIZE = 12;
+		row_num = 8;
+	}
+		
+	switch(model){
+		case 0:
+		{
+			unsigned char i = 0;
+			for(; i < row_num ; i++)  // 一行的一半显示字符串一半显示数字
+			{
+				OLED_ShowString(0, (8/row_num)*i, page[i].srt);
+				OLED_ShowNum(64, (8/row_num)*i, page[i].num, 6, show_size);
+			}
+			break;
+				 
+		}
+		case 1:
+		{
+			unsigned char i = 0;
+			for(; i < row_num ; i++)  // 每半行的一半显示字符串一半显示数字
+			{
+				OLED_ShowString(0, (8/row_num)*i, page[2*i].srt);
+				OLED_ShowNum(32, (8/row_num)*i, page[2*i].num, 4, show_size);
+				OLED_ShowString(64, (8/row_num)*i, page[2*i+1].srt);
+				OLED_ShowNum(96, (8/row_num)*i, page[2*i+1].num, 4, show_size);
+			}
+			break;
+		}
+		default: return 0;
+			
+	}
+}
 
 
 

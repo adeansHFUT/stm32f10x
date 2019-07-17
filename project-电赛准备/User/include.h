@@ -4,4 +4,5 @@
 #include "oled.h"
 #include "bmp.h"
 #include "sys.h"
+#include "string.h"
 

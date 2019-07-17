@@ -35,7 +35,6 @@
 //0:4线串行模式
 //1:并行8080模式
 #define OLED_MODE 0
-#define SIZE 16
 #define XLevelL		0x00
 #define XLevelH		0x10
 #define Max_Column	128
@@ -75,6 +74,11 @@
 #define OLED_CMD  0	//写命令
 #define OLED_DATA 1	//写数据
 
+//定义显示节点
+typedef struct show_node {         
+	char srt[20];  // 字符串
+	u16 num;	// 数字
+}show_node;	
 
 //OLED控制用函数
 void OLED_WR_Byte(u8 dat,u8 cmd);	    
@@ -90,6 +94,9 @@ void OLED_ShowString(u8 x,u8 y, u8 *p);
 void OLED_Set_Pos(unsigned char x, unsigned char y);
 void OLED_ShowCHinese(u8 x,u8 y,u8 no);
 void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[]);
+
+u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum);
+u8 showpage(show_node *page, unsigned char model, unsigned char show_size);
 #endif  
 	 
 
