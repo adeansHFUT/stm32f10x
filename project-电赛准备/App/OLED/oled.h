@@ -42,7 +42,8 @@
 #define	Brightness	0xFF 
 #define X_WIDTH 	128
 #define Y_WIDTH 	64	    						  
-//-----------------OLED端口定义----------------  					   
+//-----------------OLED端口定义----------------  	
+//****************用了PD3、4、5、6、7*************************
 #define OLED_CS_Clr()  GPIO_ResetBits(GPIOD,GPIO_Pin_3)//CS
 #define OLED_CS_Set()  GPIO_SetBits(GPIOD,GPIO_Pin_3)
 
@@ -98,7 +99,18 @@ void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned 
 u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum);
 u8 showpage(show_node *page, unsigned char model, unsigned char show_size);
 #endif  
-	 
 
+/*
+显示汉字例子保存
+OLED_ShowCHinese(0,0,0); //
+		OLED_ShowCHinese(18,0,1);
+		OLED_ShowCHinese(36,0,2);
+		OLED_ShowCHinese(54,0,3);//
+		OLED_ShowCHinese(72,0,4);
+		OLED_ShowCHinese(90,0,5);//
+		OLED_ShowCHinese(108,0,6);//
+显示图片		
+	OLED_DrawBMP(0,0,128,8,BMP1); 
+*/
 
 

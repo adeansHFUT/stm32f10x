@@ -1,6 +1,6 @@
 #include "delay.h"
 
-void delay_ms(unsigned int time)
+void mydelay_ms(unsigned int time)
 {
 	unsigned int j = 0;
 	unsigned int i = 0;

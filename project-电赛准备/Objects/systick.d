@@ -1,6 +1,6 @@
 .\objects\systick.o: Public\SysTick.c
 .\objects\systick.o: Public\SysTick.h
-.\objects\systick.o: Public\system.h
+.\objects\systick.o: Public\sys.h
 .\objects\systick.o: .\User\stm32f10x.h
 .\objects\systick.o: .\Libraries\CMSIS\core_cm3.h
 .\objects\systick.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
