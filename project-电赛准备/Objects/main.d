@@ -38,3 +38,4 @@
 .\objects\main.o: .\Public\SysTick.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: .\App\time\time.h
+.\objects\main.o: .\App\pwm\pwm.h

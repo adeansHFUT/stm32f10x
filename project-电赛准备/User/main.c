@@ -12,22 +12,15 @@ int main(void)
 	NVIC_Configuration(); 	 
 	OLED_Init();			//oled初始化
 	OLED_Clear(); 
-	TIM2_Init(200,72000-1);  // 1/(72M/72000),200ms
-	//showpage(pagetable, 1, 12);
+	TIM2_Init(200,72000-1);  // 1/(72M/72000)=1ms,200ms 定时器2
+	TIM3_CH12_steer_PWM_Init(1000,72-1);  // 72M/(72*1000)=1kMz的舵机频率，arr=1000	
+	TIM_SetCompare1(TIM3,500);  //i值最大可以取499，因为ARR最大值是499.,499是不转
+	TIM_SetCompare2(TIM3,750);
+	updatepage(pagetable,0,"sf",844);
 	while(1) 
 	{		
-		updatepage(pagetable, 0, "hello", 666);
-		updatepage(pagetable, 1, "world", 2333);
-		updatepage(pagetable, 2, "start", 465);
-		updatepage(pagetable, 3, "world", 2333);
-		updatepage(pagetable, 4, "start", 465);
-		delay_ms(1000);
-		updatepage(pagetable, 0, "new", 1);
-		updatepage(pagetable, 1, "new", 2);
-		updatepage(pagetable, 2, "new", 3);
-		updatepage(pagetable, 3, "new", 4);
-		updatepage(pagetable, 4, "new", 5);
-		delay_ms(1000);
+		TIM_SetCompare1(TIM3,500);  //i值最大可以取499，因为ARR最大值是499.,499是不转
+		TIM_SetCompare2(TIM3,750);
 	}	  
 	return 0;
 }

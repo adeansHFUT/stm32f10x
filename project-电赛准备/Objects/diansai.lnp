@@ -5,6 +5,7 @@
 ".\objects\delay.o"
 ".\objects\oled.o"
 ".\objects\time.o"
+".\objects\pwm.o"
 ".\objects\sys.o"
 ".\objects\systick.o"
 ".\objects\stm32f10x_exti.o"
