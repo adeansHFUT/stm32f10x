@@ -1,7 +1,7 @@
 #include "pwm.h"
-
+static u16 t_arr = 0; //arr寄存器的值
 /*******************************************************************************
-* 函 数 名         : TIM3_CH3_PWM_Init
+* 函 数 名         : TIM3_CH12_PWM_Init
 * 函数功能		   : TIM3通道PWM初始化函数(舵机)
 * 输    入         : per:重装载值
 					 psc:分频系数
@@ -25,12 +25,12 @@ void TIM3_CH12_steer_PWM_Init(u16 per,u16 psc)
 	/*  配置GPIO的模式和IO口 */
 	GPIO_InitStructure6.GPIO_Pin=GPIO_Pin_6;
 	GPIO_InitStructure6.GPIO_Speed=GPIO_Speed_50MHz;
-	GPIO_InitStructure6.GPIO_Mode=GPIO_Mode_Out_PP;//该推挽输出
+	GPIO_InitStructure6.GPIO_Mode=GPIO_Mode_AF_PP;//复用推挽输出
 	GPIO_Init(GPIOA,&GPIO_InitStructure6);
 	
 	GPIO_InitStructure7.GPIO_Pin=GPIO_Pin_7;
 	GPIO_InitStructure7.GPIO_Speed=GPIO_Speed_50MHz;
-	GPIO_InitStructure7.GPIO_Mode=GPIO_Mode_Out_PP;//推挽输出
+	GPIO_InitStructure7.GPIO_Mode=GPIO_Mode_AF_PP;//复用推挽输出
 	GPIO_Init(GPIOA,&GPIO_InitStructure7);
 	
 	
@@ -43,13 +43,13 @@ void TIM3_CH12_steer_PWM_Init(u16 per,u16 psc)
 	TIM_TimeBaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up; //设置向上计数模式
 	TIM_TimeBaseInit(TIM3,&TIM_TimeBaseInitStructure);	
 	
-	TIM_OCInitStructure1.TIM_OCMode=TIM_OCMode_PWM1;
-	TIM_OCInitStructure1.TIM_OCPolarity=TIM_OCPolarity_Low;
+	TIM_OCInitStructure1.TIM_OCMode=TIM_OCMode_PWM1;  //CNT<CCR时起作用
+	TIM_OCInitStructure1.TIM_OCPolarity=TIM_OCPolarity_High; //作用为高电平
 	TIM_OCInitStructure1.TIM_OutputState=TIM_OutputState_Enable;
 	TIM_OC1Init(TIM3,&TIM_OCInitStructure1); //输出比较通道1初始化
 	
-	TIM_OCInitStructure2.TIM_OCMode=TIM_OCMode_PWM1;
-	TIM_OCInitStructure2.TIM_OCPolarity=TIM_OCPolarity_Low;
+	TIM_OCInitStructure2.TIM_OCMode=TIM_OCMode_PWM1;  
+	TIM_OCInitStructure2.TIM_OCPolarity=TIM_OCPolarity_High;
 	TIM_OCInitStructure2.TIM_OutputState=TIM_OutputState_Enable;
 	TIM_OC2Init(TIM3,&TIM_OCInitStructure2); //输出比较通道2初始化
 	
@@ -62,6 +62,35 @@ void TIM3_CH12_steer_PWM_Init(u16 per,u16 psc)
 
 	TIM_Cmd(TIM3,ENABLE); //使能定时器
 		
+}
+/*
+函数名：steerFrequency_Init
+函数作用：初始化舵机频率
+参数：频率.1-10（单位是kMz）
+返回：无
+*/
+void steerFrequency_Init(u8 fre)
+{
+	t_arr = 1000/fre;
+	TIM3_CH12_steer_PWM_Init(t_arr, 72-1);
+}
+/*
+函数名：set_steerDuty
+函数作用：设置舵机占空比
+参数：0-1000（单位是千分之）
+返回：无
+*/
+void set_steerDuty(u8 index, u16 duty)
+{
+	u16 ccr;
+	ccr = (duty/1000)*t_arr;
+	switch(index){
+		case 1: TIM_SetCompare1(TIM3, ccr);
+				break;
+		case 2: TIM_SetCompare2(TIM3, ccr);
+				break;
+		default: break;
+	}
 }
 
 
