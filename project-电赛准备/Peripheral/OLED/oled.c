@@ -31,8 +31,8 @@
 #include "oled.h"
 #include "stdlib.h"
 #include "oledfont.h"  	 
-#include "delay.h"
 #include "string.h"
+#include "SysTick.h" // 包含delay函数
 //OLED的显存
 //存放格式如下.
 //[0]0 1 2 3 ... 127	
@@ -335,7 +335,7 @@ u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum)
 		show_size(显示字体:12/16) 12--->显示8行, 16--->可显示4行
 输出：无
 */
-u8 showpage(show_node *page, unsigned char model, unsigned char show_size)
+void showpage(show_node *page, unsigned char model, unsigned char show_size)
 {
 	unsigned char row_num = 0;  // 一行能放几个
 	if(show_size == 16)
@@ -373,7 +373,7 @@ u8 showpage(show_node *page, unsigned char model, unsigned char show_size)
 			}
 			break;
 		}
-		default: return 0;
+		default: break;
 			
 	}
 }

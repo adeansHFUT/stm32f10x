@@ -1,5 +1,5 @@
-.\objects\oled.o: App\OLED\oled.c
-.\objects\oled.o: App\OLED\oled.h
+.\objects\oled.o: Peripheral\OLED\oled.c
+.\objects\oled.o: Peripheral\OLED\oled.h
 .\objects\oled.o: .\Public\sys.h
 .\objects\oled.o: .\User\stm32f10x.h
 .\objects\oled.o: .\Libraries\CMSIS\core_cm3.h
@@ -31,6 +31,6 @@
 .\objects\oled.o: .\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_wwdg.h
 .\objects\oled.o: .\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h
 .\objects\oled.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\oled.o: App\OLED\oledfont.h
-.\objects\oled.o: .\App\delay\delay.h
+.\objects\oled.o: Peripheral\OLED\oledfont.h
 .\objects\oled.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\oled.o: .\Public\SysTick.h

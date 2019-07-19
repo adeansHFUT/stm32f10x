@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F10X_HD</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Libraries\STM32F10x_StdPeriph_Driver\inc;.\User;.\Libraries\CMSIS;.\App\led;.\App\delay;.\App\oled;.\App\time;.\Public;.\App\pwm</IncludePath>
+              <IncludePath>.\Libraries\STM32F10x_StdPeriph_Driver\inc;.\User;.\Libraries\CMSIS;.\Public;.\Peripheral\led;.\Peripheral\OLED;.\Peripheral\pwm;.\Peripheral\time</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -415,71 +415,67 @@
         </Group>
         <Group>
           <GroupName>App</GroupName>
+        </Group>
+        <Group>
+          <GroupName>App_h</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Peripherasl</GroupName>
           <Files>
             <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\App\led\led.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\App\delay\delay.c</FilePath>
+              <FilePath>.\Peripheral\led\led.c</FilePath>
             </File>
             <File>
               <FileName>oled.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\App\OLED\oled.c</FilePath>
-            </File>
-            <File>
-              <FileName>time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\App\time\time.c</FilePath>
+              <FilePath>.\Peripheral\OLED\oled.c</FilePath>
             </File>
             <File>
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\App\pwm\pwm.c</FilePath>
+              <FilePath>.\Peripheral\pwm\pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Peripheral\time\time.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>App_h</GroupName>
+          <GroupName>Peripherasl_h</GroupName>
           <Files>
             <File>
               <FileName>led.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\App\led\led.h</FilePath>
-            </File>
-            <File>
-              <FileName>delay.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\App\delay\delay.h</FilePath>
-            </File>
-            <File>
-              <FileName>oled.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\App\OLED\oled.h</FilePath>
+              <FilePath>.\Peripheral\led\led.h</FilePath>
             </File>
             <File>
               <FileName>bmp.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\App\OLED\bmp.h</FilePath>
+              <FilePath>.\Peripheral\OLED\bmp.h</FilePath>
+            </File>
+            <File>
+              <FileName>oled.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Peripheral\OLED\oled.h</FilePath>
             </File>
             <File>
               <FileName>oledfont.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\App\OLED\oledfont.h</FilePath>
-            </File>
-            <File>
-              <FileName>time.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\App\time\time.h</FilePath>
+              <FilePath>.\Peripheral\OLED\oledfont.h</FilePath>
             </File>
             <File>
               <FileName>pwm.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\App\pwm\pwm.h</FilePath>
+              <FilePath>.\Peripheral\pwm\pwm.h</FilePath>
+            </File>
+            <File>
+              <FileName>time.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Peripheral\time\time.h</FilePath>
             </File>
           </Files>
         </Group>

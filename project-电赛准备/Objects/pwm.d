@@ -1,5 +1,5 @@
-.\objects\pwm.o: App\pwm\pwm.c
-.\objects\pwm.o: App\pwm\pwm.h
+.\objects\pwm.o: Peripheral\pwm\pwm.c
+.\objects\pwm.o: Peripheral\pwm\pwm.h
 .\objects\pwm.o: .\Public\sys.h
 .\objects\pwm.o: .\User\stm32f10x.h
 .\objects\pwm.o: .\Libraries\CMSIS\core_cm3.h

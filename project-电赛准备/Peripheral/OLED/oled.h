@@ -97,7 +97,7 @@ void OLED_ShowCHinese(u8 x,u8 y,u8 no);
 void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[]);
 
 u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum);
-u8 showpage(show_node *page, unsigned char model, unsigned char show_size);
+void showpage(show_node *page, unsigned char model, unsigned char show_size);
 #endif  
 
 /*
