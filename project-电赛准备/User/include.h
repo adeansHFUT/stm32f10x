@@ -7,4 +7,5 @@
 #include "string.h"
 #include "time.h"
 #include "pwm.h"
-
+#include "key.h"
+#include "display.h"

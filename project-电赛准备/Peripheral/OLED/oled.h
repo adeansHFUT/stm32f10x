@@ -77,7 +77,7 @@
 
 //定义显示节点
 typedef struct show_node {         
-	char srt[20];  // 字符串
+	char srt[11];  // 字符串
 	u16 num;	// 数字
 }show_node;	
 
@@ -96,8 +96,10 @@ void OLED_Set_Pos(unsigned char x, unsigned char y);
 void OLED_ShowCHinese(u8 x,u8 y,u8 no);
 void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[]);
 
-u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum);
-void showpage(show_node *page, unsigned char model, unsigned char show_size);
+u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum, u8 mode);
+void showpage(show_node *page, unsigned char mode, unsigned char show_size);
+u8 clearpage(show_node *page);
+extern u8 autoRefresh;  // 全局化
 #endif  
 
 /*

@@ -2,7 +2,7 @@
 .\objects\main.o: User\include.h
 .\objects\main.o: User\stm32f10x.h
 .\objects\main.o: .\Libraries\CMSIS\core_cm3.h
-.\objects\main.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\main.o: .\Libraries\CMSIS\system_stm32f10x.h
 .\objects\main.o: User\stm32f10x_conf.h
 .\objects\main.o: .\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_adc.h
@@ -32,9 +32,11 @@
 .\objects\main.o: .\Peripheral\led\led.h
 .\objects\main.o: .\Peripheral\OLED\oled.h
 .\objects\main.o: .\Public\sys.h
-.\objects\main.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: .\Peripheral\OLED\bmp.h
 .\objects\main.o: .\Public\SysTick.h
-.\objects\main.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: .\Peripheral\time\time.h
 .\objects\main.o: .\Peripheral\pwm\pwm.h
+.\objects\main.o: .\Peripheral\key\key.h
+.\objects\main.o: .\App\Display\display.h

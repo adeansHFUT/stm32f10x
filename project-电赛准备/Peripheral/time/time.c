@@ -1,7 +1,9 @@
 #include "time.h"
 #include "oled.h"
+#include "key.h"
 extern show_node pagetable[16];
-
+extern u8 key_num;  
+static u8 x_ms = 0;
 /*******************************************************************************
 * 函 数 名         : TIM2_Init
 * 函数功能		   : TIM4初始化函数
@@ -35,17 +37,27 @@ void TIM2_Init(u16 per,u16 psc)
 }
 
 /*******************************************************************************
-* 函 数 名         : TIM4_IRQHandler
-* 函数功能		   : TIM4中断函数
+* 函 数 名         : TIM2_IRQHandler
+* 函数功能		   : TIM2中断函数
 * 输    入         : 无
 * 输    出         : 无
 *******************************************************************************/
 void TIM2_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM2,TIM_IT_Update))
-	{
-		OLED_Clear();
-		showpage(pagetable, 1, 12);
+	{		
+		x_ms++;  // 目前是10ms加1
+		if(x_ms > 100)
+			x_ms = 0;
+		
+		if(x_ms%40 == 1 && autoRefresh )
+		{
+			OLED_Clear();
+			showpage(pagetable, 1, 12);
+		}
+		if(x_ms%20 == 2 && key_num == 0)
+			key_num = KEY_Scan(0);
+		
 	}
 	TIM_ClearITPendingBit(TIM2,TIM_IT_Update);	
 }

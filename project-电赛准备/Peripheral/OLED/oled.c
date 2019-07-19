@@ -42,8 +42,16 @@
 //[4]0 1 2 3 ... 127	
 //[5]0 1 2 3 ... 127	
 //[6]0 1 2 3 ... 127	
-//[7]0 1 2 3 ... 127 			   
-unsigned char OLED_SIZE = 16;            // 显示size 12/16
+//[7]0 1 2 3 ... 127 	
+
+show_node pagetable[16]; //用于OLED 屏幕显示字符的节点数字
+/*16字体0模式--->4个节点(8字符)*/
+/*12字体0模式--->8个节点(10字符)*/
+/*16字体1模式--->8个节点(4字符)*/
+/*12字体1模式--->16个节点(5字符)*/
+u8 OLED_SIZE = 16;            // 显示size 12/16
+u8 autoRefresh = 0;           // 在定时器里自动刷新oled
+
 
 #if OLED_MODE==1
 //向SSD1106写入一个字节。
@@ -319,12 +327,30 @@ void OLED_Init(void)
 		index(节点号)
 		newstr(更新的字符串)
 		newnum(更新的数字)
+		mode(0->只更新数字，1—>字符串也同时更新)
 输出：1--->更新成功 0--->更新失败
 */
-u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum)
+u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum, u8 mode)
 {
-	strcpy(page[index].srt, newstr);
+	if(mode)
+		strcpy(page[index].srt, newstr);
 	page[index].num = newnum;
+	return 1;
+}
+/*
+函数名：clearpage
+函数作用: 清除页面数组
+输入：  page(页面数组)，
+输出：1->清除成功
+*/
+u8 clearpage(show_node *page)
+{
+	unsigned char i = 0;
+	for(; i < 16 ; i++)  //
+	{
+		strcpy(page[i].srt, " ");
+		page[i].num = 0;
+	}
 	return 1;
 }
 /*
@@ -335,7 +361,7 @@ u8 updatepage(show_node *page, u8 index, char *newstr, u16 newnum)
 		show_size(显示字体:12/16) 12--->显示8行, 16--->可显示4行
 输出：无
 */
-void showpage(show_node *page, unsigned char model, unsigned char show_size)
+void showpage(show_node *page, unsigned char mode, unsigned char show_size)
 {
 	unsigned char row_num = 0;  // 一行能放几个
 	if(show_size == 16)
@@ -349,7 +375,7 @@ void showpage(show_node *page, unsigned char model, unsigned char show_size)
 		row_num = 8;
 	}
 		
-	switch(model){
+	switch(mode){
 		case 0:
 		{
 			unsigned char i = 0;

@@ -46,11 +46,13 @@ void TIM3_CH12_steer_PWM_Init(u16 per,u16 psc)
 	TIM_OCInitStructure1.TIM_OCMode=TIM_OCMode_PWM1;  //CNT<CCR时起作用
 	TIM_OCInitStructure1.TIM_OCPolarity=TIM_OCPolarity_High; //作用为高电平
 	TIM_OCInitStructure1.TIM_OutputState=TIM_OutputState_Enable;
+	TIM_OCInitStructure1.TIM_Pulse = 200;
 	TIM_OC1Init(TIM3,&TIM_OCInitStructure1); //输出比较通道1初始化
 	
 	TIM_OCInitStructure2.TIM_OCMode=TIM_OCMode_PWM1;  
 	TIM_OCInitStructure2.TIM_OCPolarity=TIM_OCPolarity_High;
 	TIM_OCInitStructure2.TIM_OutputState=TIM_OutputState_Enable;
+	TIM_OCInitStructure2.TIM_Pulse = 200;
 	TIM_OC2Init(TIM3,&TIM_OCInitStructure2); //输出比较通道2初始化
 	
 
@@ -72,7 +74,7 @@ void TIM3_CH12_steer_PWM_Init(u16 per,u16 psc)
 void steerFrequency_Init(u8 fre)
 {
 	t_arr = 1000/fre;
-	TIM3_CH12_steer_PWM_Init(t_arr, 72-1);
+	TIM3_CH12_steer_PWM_Init(t_arr-1, 72-1);
 }
 /*
 函数名：set_steerDuty
@@ -80,10 +82,10 @@ void steerFrequency_Init(u8 fre)
 参数：0-1000（单位是千分之）
 返回：无
 */
-void set_steerDuty(u8 index, u16 duty)
+void set_steerDuty(u8 index, uint16_t duty)
 {
-	u16 ccr;
-	ccr = (duty/1000)*t_arr;
+	uint16_t ccr;
+	ccr = (duty*t_arr)/1000;
 	switch(index){
 		case 1: TIM_SetCompare1(TIM3, ccr);
 				break;
